@@ -24,83 +24,127 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.whatjustchanged.core.ui.R
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onSettingsClick: () -> Unit = {} // Placeholder for future
+    onSettingsClick: () -> Unit = {} // Kept for interface compatibility, though we might route internally now
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var selectedTab by remember { mutableStateOf(0) }
+    val tabs = listOf("We Met", "Updates", "Settings")
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // top Bar area
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-             Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "App Logo",
-                modifier = Modifier.size(48.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(
-                text = "Markd",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    NavigationBarItem(
+                        icon = {
+                            when (index) {
+                                0 -> Icon(imageVector = Icons.Default.Home, contentDescription = title)
+                                1 -> Icon(imageVector = Icons.Default.Refresh, contentDescription = title)
+                                2 -> Icon(imageVector = Icons.Default.Settings, contentDescription = title)
+                            }
+                        },
+                        label = { Text(title) },
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index }
+                    )
+                }
+            }
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(innerPadding)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.height(48.dp)
+                )
+            }
 
-        Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-        // Main Status / Config Card
-        ConfigCard(
-            title = "System Status",
-            details = listOf(
-                "Connected to: ${uiState.apiUrl}",
-                "Port: ${uiState.port}",
-                "Status: Active"
-            )
+            // Content Switcher
+            when (selectedTab) {
+                0 -> WeMetContent(uiState)
+                1 -> UpdatesContent()
+                2 -> SettingsContent(uiState)
+            }
+        }
+    }
+}
+
+@Composable
+fun WeMetContent(uiState: HomeUiState) {
+    ConfigCard(
+        title = "System Status",
+        details = listOf(
+            "Connected to: ${uiState.apiUrl}",
+            "Port: ${uiState.port}",
+            "Status: Active"
         )
+    )
+}
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Actions
-        Button(
-            onClick = { /* TODO: Trigger Update */ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
-            ),
-             shape = MaterialTheme.shapes.medium
-        ) {
-            Text("Check for Updates")
-        }
-
+@Composable
+fun UpdatesContent() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+             text = "No updates available",
+             style = MaterialTheme.typography.bodyLarge,
+             color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
         Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedButton(
-            onClick = onSettingsClick,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-             shape = MaterialTheme.shapes.medium
-        ) {
-            Text("Settings")
+        Button(onClick = { /* Check updates */ }) {
+            Text("Check Now")
         }
-        
-        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@Composable
+fun SettingsContent(uiState: HomeUiState) {
+    ConfigCard(
+        title = "Configuration",
+        details = listOf(
+            "API Key: ${uiState.apiKey.take(4)}****",
+            "Build Version: 1.0.0"
+        )
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    OutlinedButton(
+        onClick = { /* TODO */ },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Edit Configuration")
     }
 }
 
