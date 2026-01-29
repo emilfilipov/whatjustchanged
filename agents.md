@@ -1,7 +1,7 @@
 # Agents.md - Antigravity Android Development Guide
 
 ## Project Overview
-This project is an Android application named "WhatJustChanged" built with industry best practices.
+This project is an Android application named "Markd" (formerly "WhatJustChanged") built with industry best practices.
 
 ## Guidelines for Agents
 1.  **Architecture**: Follow Clean Architecture & MVVM.
@@ -28,6 +28,7 @@ This project is an Android application named "WhatJustChanged" built with indust
 -   Check `implementation_plan.md` before starting work.
 -   Update `task.md` continuously.
 -   When adding external service calls, update the Config Manager.
+-   **Always remind the user to sync files in their IDE before running the app** after making code changes.
 
 ## Key Files
 -   `color_scheme_config.md`: Design tokens (Colors, Typography).

@@ -1,4 +1,21 @@
-WhatJustChanged — Core Design Tokens (v1)
+Markd — Core Design Tokens (v1)
+0. Branding (Logo & Icon)
+Markd. — Logo Spec (Dev)
+Option A (Primary wordmark)
+Text: Markd.
+Font: Playfair Display – SemiBold
+Colour:
+• Text (“Markd”): #000000
+• Full stop: Oxblood #8C1D2B
+Background: #FFFFFF
+
+App Icon / Thumbnail
+Text: M.
+Font: Playfair Display – Bold
+Colour:
+Background: Oxblood #8C1D2B
+Letter + dot: #FFFFFF
+Shape: Rounded square (standard app icon)
 1. Typography
 Primary Serif (Headlines, Key Statements)
 Font: Source Serif 4

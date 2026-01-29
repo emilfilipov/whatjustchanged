@@ -3,6 +3,10 @@ package com.whatjustchanged.core.ui
 import androidx.compose.ui.graphics.Color
 
 object AppColors {
+    // Branding
+    val BrandOxblood = Color(0xFF8C1D2B)
+    val BrandBlack = Color(0xFF000000)
+
     // Core Backgrounds
     val BackgroundPrimary = Color(0xFFF7F4EF)
     val CardBackground = Color(0xFFFBF9F6)
