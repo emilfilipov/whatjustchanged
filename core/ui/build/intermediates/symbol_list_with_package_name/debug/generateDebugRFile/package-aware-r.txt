@@ -1,0 +1,2 @@
+com.whatjustchanged.core.ui
+drawable logo
