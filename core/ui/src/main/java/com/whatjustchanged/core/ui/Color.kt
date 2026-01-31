@@ -18,8 +18,8 @@ object AppColors {
     val TextHelper = Color(0xFF8A8A83)
 
     // Accent Colour
-    val AccentPrimary = Color(0xFF3F6C8F)
-    val AccentHover = Color(0xFF345A77)
+    val AccentPrimary = Color(0xFF8C1D2B)
+    val AccentHover = Color(0xFF6B1620)
 
     // Warm Highlight
     val WarmHighlightBackground = Color(0xFFEDE4D7)
